@@ -2,11 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using movies.api.DAL;
 using movies.api.Repositories.Implementations;
 using movies.api.Repositories.Interfaces;
+using movies.api.Services.Implementations;
+using movies.api.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Register services in the dependency container
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
 
+// Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddControllers();
