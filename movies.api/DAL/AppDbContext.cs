@@ -12,7 +12,7 @@ namespace movies.api.DAL
 		public DbSet<Genre> Genres { get; set; }
 		public DbSet<Movie> Movies {  get; set; }
 		public DbSet<Rating> Ratings { get; set; }
-		public DbSet<MovieActor> MoviesActors { get; set; }
+		public DbSet<MovieActor> MovieActors { get; set; }
 		public DbSet<MovieGenre> MovieGenres { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

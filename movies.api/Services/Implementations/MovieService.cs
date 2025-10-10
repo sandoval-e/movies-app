@@ -64,7 +64,7 @@ namespace movies.api.Services.Implementations
 
 			var actors = movie.MovieActors.Select(ma => new ActorInfo
 			{
-				ActorName = ma.Actor?.Fullname ?? "Unknown",
+				ActorName = ma.Actor?.FullName ?? "Unknown",
 				PictureUrl = ma.Actor?.PictureUrl ?? string.Empty
 			}).ToList();
 
@@ -74,7 +74,7 @@ namespace movies.api.Services.Implementations
 			{
 				Score = mr.Score,
 				Comment = mr.Comment ?? string.Empty,
-				Username = mr.User?.Username ?? string.Empty
+				Username = mr.User?.UserName ?? string.Empty
 			}).ToList();
 
 			var ratingInfo = new RatingInfo
