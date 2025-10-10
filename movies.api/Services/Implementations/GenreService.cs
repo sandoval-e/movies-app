@@ -35,7 +35,7 @@ namespace movies.api.Services.Implementations
 			return new GenreResponseDto { Id = genre.Id, Name = genre.Name };
 		}
 
-		public async Task AddGenreAsync(GenreUpdateDto genre)
+		public async Task AddGenreAsync(GenreCreateDto genre)
 		{
 			var newGenre = new Genre()
 			{
