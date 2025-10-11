@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using movies.api.Models.DTOs.Movie;
 using movies.api.Services.Interfaces;
 
 namespace movies.api.Controllers
@@ -25,8 +26,8 @@ namespace movies.api.Controllers
 		[HttpGet("Catalog/{id}")]
 		public async Task<IActionResult> GetMovieData(int id)
 		{
-			var result = await _service.GetMovieWithMetadata(id);
-			return Ok(result);
+			MovieResponseDto? result = await _service.GetMovieWithMetadata(id);
+			return result != null ? Ok(result) : NotFound();
 		}
 	}
 }

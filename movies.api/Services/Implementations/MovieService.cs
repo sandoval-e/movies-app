@@ -43,7 +43,7 @@ namespace movies.api.Services.Implementations
 			return movieCatalog;
 		}
 
-		public async Task<MovieResponseDto> GetMovieWithMetadata(int movieId)
+		public async Task<MovieResponseDto>? GetMovieWithMetadata(int movieId)
 		{
 			var movie = await _dbContext.Movies
 								.Include(m => m.MovieGenres)
