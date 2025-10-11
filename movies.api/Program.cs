@@ -31,7 +31,7 @@ using (var scope = app.Services.CreateScope())
 {
 	var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 	// Ensure DB is created and migrations applied
-	context.Database.Migrate();
+	context.Database.EnsureCreated();
 	// Seed data
 	DbSeeder.Seed(context);
 }

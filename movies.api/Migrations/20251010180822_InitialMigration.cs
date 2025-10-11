@@ -17,7 +17,7 @@ namespace movies.api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Fullname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -60,12 +60,36 @@ namespace movies.api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MovieActors",
+                columns: table => new
+                {
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    ActorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieActors", x => new { x.MovieId, x.ActorId });
+                    table.ForeignKey(
+                        name: "FK_MovieActors_Actors_ActorId",
+                        column: x => x.ActorId,
+                        principalTable: "Actors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovieActors_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,30 +117,6 @@ namespace movies.api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MoviesActors",
-                columns: table => new
-                {
-                    MovieId = table.Column<int>(type: "int", nullable: false),
-                    ActorId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MoviesActors", x => new { x.MovieId, x.ActorId });
-                    table.ForeignKey(
-                        name: "FK_MoviesActors_Actors_ActorId",
-                        column: x => x.ActorId,
-                        principalTable: "Actors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MoviesActors_Movies_MovieId",
-                        column: x => x.MovieId,
-                        principalTable: "Movies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Ratings",
                 columns: table => new
                 {
@@ -124,9 +124,8 @@ namespace movies.api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Score = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActorId = table.Column<int>(type: "int", nullable: false),
-                    MovieId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    MovieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -141,18 +140,19 @@ namespace movies.api.Migrations
                         name: "FK_Ratings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieActors_ActorId",
+                table: "MovieActors",
+                column: "ActorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MovieGenres_GenreId",
                 table: "MovieGenres",
                 column: "GenreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MoviesActors_ActorId",
-                table: "MoviesActors",
-                column: "ActorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_MovieId",
@@ -169,19 +169,19 @@ namespace movies.api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MovieGenres");
+                name: "MovieActors");
 
             migrationBuilder.DropTable(
-                name: "MoviesActors");
+                name: "MovieGenres");
 
             migrationBuilder.DropTable(
                 name: "Ratings");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "Actors");
 
             migrationBuilder.DropTable(
-                name: "Actors");
+                name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Movies");

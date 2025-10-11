@@ -12,7 +12,7 @@ using movies.api.DAL;
 namespace movies.api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251008010251_InitialMigration")]
+    [Migration("20251010180822_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace movies.api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Fullname")
+                    b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PictureUrl")
@@ -97,7 +97,7 @@ namespace movies.api.Migrations
 
                     b.HasIndex("ActorId");
 
-                    b.ToTable("MoviesActors");
+                    b.ToTable("MovieActors");
                 });
 
             modelBuilder.Entity("movies.api.Models.Entities.MovieGenre", b =>
@@ -123,9 +123,6 @@ namespace movies.api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ActorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
@@ -135,7 +132,7 @@ namespace movies.api.Migrations
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -158,7 +155,7 @@ namespace movies.api.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -214,7 +211,9 @@ namespace movies.api.Migrations
 
                     b.HasOne("movies.api.Models.Entities.User", "User")
                         .WithMany("Ratings")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Movie");
 
